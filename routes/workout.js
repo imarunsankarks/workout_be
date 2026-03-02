@@ -18,7 +18,6 @@ router.get('/:userId', async (req, res) => {
   try {
     const workouts = await Workout.find({ userId: req.params.userId })
       .sort({ date: -1 })
-      .limit(8);
     res.json(workouts);
   } catch (err) {
     res.status(500).json({ message: err.message });
