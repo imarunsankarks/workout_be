@@ -18,6 +18,9 @@ mongoose.connect(process.env.MONGO_URI)
 app.use('/api/workouts', require('./routes/workout'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/exercises', require('./routes/exercises'));
+app.get("/api/keepalive/ping", (req, res) => {
+  res.status(200).send("OK");
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
