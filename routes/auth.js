@@ -54,6 +54,49 @@ router.post('/authenticate', async (req, res) => {
   }
 });
 
+router.post('/verify-credentials', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    res.json({ verified: true });
+  } catch (err) {
+    res.status(500).json({ message: "Server error during verification", error: err.message });
+  }
+});
+
+router.put('/update-password', async (req, res) => {
+  const { userId, newPassword } = req.body;
+
+  try {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { password: hashedPassword },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ message: "Password updated successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error updating password", error: err.message });
+  }
+});
+
 router.delete('/delete-profile/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
