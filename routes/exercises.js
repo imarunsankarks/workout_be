@@ -15,7 +15,7 @@ router.get('/:userId', async (req, res) => {
 // Add new custom workout to user library
 router.post('/', async (req, res) => {
   try {
-    const newEx = new Exercise(req.body); 
+    const newEx = new Exercise(req.body);
     await newEx.save();
     res.status(201).json(newEx);
   } catch (err) {
@@ -25,10 +25,10 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    const { name, muscle, type } = req.body;
+    const { name, muscle, type, resistance, execution } = req.body;
     const updatedExercise = await Exercise.findByIdAndUpdate(
       req.params.id,
-      { name, muscle, type },
+      { name, muscle, type, resistance, execution },
       { new: true } // Returns the modified document rather than the original
     );
 
@@ -46,7 +46,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const exercise = await Exercise.findByIdAndDelete(req.params.id);
-    
+
     if (!exercise) {
       return res.status(404).json({ message: "Exercise not found" });
     }
