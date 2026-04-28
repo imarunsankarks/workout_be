@@ -25,10 +25,10 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
   try {
-    const { name, muscle, type, resistance, execution } = req.body;
+    const { name, muscle, type } = req.body;
     const updatedExercise = await Exercise.findByIdAndUpdate(
       req.params.id,
-      { name, muscle, type, resistance, execution },
+      { name, muscle, type },
       { new: true } // Returns the modified document rather than the original
     );
 

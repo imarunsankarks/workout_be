@@ -14,7 +14,9 @@ const WorkoutSchema = new mongoose.Schema({
       weight: Number,
       reps: Number,
       time: Number // For Warmup/Stretching
-    }]
+    }],
+    resistance: { type: Number, default: 0 },
+    execution: { type: String, enum: ['Unilateral', 'Bilateral'], default: 'Bilateral' },
   }]
 }, { timestamps: true });
 

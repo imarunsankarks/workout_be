@@ -5,8 +5,8 @@ const ExerciseSchema = new mongoose.Schema({
   name: { type: String, required: true },
   muscle: { type: String, required: true },
   type: { type: String, enum: ['Strength', 'Warmup', 'Stretching'], required: true },
-  resistance: { type: Number, default: 0 },
-  execution: { type: String, enum: ['Single', 'Both'], default: 'Both' }
+  //resistance: { type: Number, default: 0 },
+  //execution: { type: String, enum: ['Single', 'Both'], default: 'Both' }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Exercise', ExerciseSchema);
