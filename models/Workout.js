@@ -6,6 +6,13 @@ const WorkoutSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now },
   duration: { type: Number, required: true }, // Total minutes
   muscles: [String],
+  
+  // --- NEW FIELDS ---
+  imageUrl: { type: String, default: null },
+  imagePublicId: { type: String, default: null },
+  notes: { type: String, default: '' },      // Optional "how it went" notes
+  // ------------------
+
   details: [{
     name: String,
     type: { type: String, enum: ['Strength', 'Warmup', 'Stretching'] },
@@ -13,7 +20,7 @@ const WorkoutSchema = new mongoose.Schema({
     sets: [{
       weight: Number,
       reps: Number,
-      time: Number // For Warmup/Stretching
+      time: Number 
     }],
     resistance: { type: Number, default: 0 },
     execution: { type: String, enum: ['Unilateral', 'Bilateral'], default: 'Bilateral' },
