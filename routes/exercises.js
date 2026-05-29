@@ -29,7 +29,7 @@ router.put('/:id', async (req, res) => {
     const updatedExercise = await Exercise.findByIdAndUpdate(
       req.params.id,
       { name, muscle, type },
-      { new: true } // Returns the modified document rather than the original
+      { new: true, runValidators: true, context: 'query' } // Returns the modified doc and enforces schema (enum/required) checks
     );
 
     if (!updatedExercise) {

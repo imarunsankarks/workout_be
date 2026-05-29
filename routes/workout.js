@@ -53,6 +53,34 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// PATCH: Edit a completed workout (name, notes, duration, muscles, details)
+router.patch('/:id', async (req, res) => {
+  try {
+    const { name, notes, duration, muscles, details } = req.body;
+
+    const update = {};
+    if (name !== undefined) update.name = name;
+    if (notes !== undefined) update.notes = notes;
+    if (duration !== undefined) update.duration = duration;
+    if (muscles !== undefined) update.muscles = muscles;
+    if (details !== undefined) update.details = details;
+
+    const updated = await Workout.findByIdAndUpdate(
+      req.params.id,
+      update,
+      { new: true, runValidators: true, context: 'query' }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ message: "Workout not found" });
+    }
+
+    res.json(updated);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
 // PATCH: Update or Clear image of an existing workout
 router.patch('/:id/update-image', async (req, res) => {
   try {
