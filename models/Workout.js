@@ -14,7 +14,17 @@ const WorkoutSchema = new mongoose.Schema({
   // ------------------
 
   details: [{
-    name: String,
+    // Canonical (and only) link to the library exercise. The display name is
+    // always resolved through the library on the read side, so renames
+    // propagate retroactively across all past workouts.
+    exerciseId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Exercise',
+      required: true,
+    },
+    // `type` and `muscle` are denormalized snapshots kept on the workout for
+    // fast UI branching (set shape, muscle volume aggregations). They are
+    // treated as immutable for an exercise's lifetime.
     type: { type: String, enum: ['Strength', 'Warmup', 'Stretching'] },
     muscle: String,
     sets: [{
