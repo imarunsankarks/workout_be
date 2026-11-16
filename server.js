@@ -19,7 +19,9 @@ app.use('/api/workouts', require('./routes/workout'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/exercises', require('./routes/exercises'));
 app.get("/api/keepalive/ping", (req, res) => {
-  res.status(200).send("OK");
+  res.status(mongoose.connection.readyState === 1 ? 200 : 503).send(
+    mongoose.connection.readyState === 1 ? "OK" : "Database connecting"
+  );
 });
 
 const PORT = process.env.PORT || 5000;
